@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 
+// ==========================================
+// TIPE DATA
+// ==========================================
 type Rekening = { type: "bank" | "wallet"; label: string; no: string; name: string };
 type Orang = { nama: string; keterangan: string };
 
@@ -40,6 +43,148 @@ type Undangan = {
   musik_end?: string;
 };
 
+// ==========================================
+// SVG ICONS (PROFESSIONAL & CLEAN)
+// ==========================================
+function IconSave({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z" />
+      <polyline points="17 21 17 13 7 13 7 21" />
+      <polyline points="7 3 7 8 15 8" />
+    </svg>
+  );
+}
+
+function IconKey({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M21 2l-2 2m-1.5 1.5L16 7l-2-2m-1.5 1.5L11 8l-2-2m-1.5 1.5L6 9" />
+      <circle cx="7.5" cy="16.5" r="4.5" />
+      <path d="m10.5 13.5 8-8" />
+    </svg>
+  );
+}
+
+function IconCopy({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+    </svg>
+  );
+}
+
+function IconCheck({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
+function IconExternalLink({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+      <polyline points="15 3 21 3 21 9" />
+      <line x1="10" y1="14" x2="21" y2="3" />
+    </svg>
+  );
+}
+
+function IconUsers({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+      <circle cx="9" cy="7" r="4" />
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+      <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+    </svg>
+  );
+}
+
+function IconImage({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+      <circle cx="8.5" cy="8.5" r="1.5" />
+      <polyline points="21 15 16 10 5 21" />
+    </svg>
+  );
+}
+
+function IconCalendar({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+      <line x1="16" y1="2" x2="16" y2="6" />
+      <line x1="8" y1="2" x2="8" y2="6" />
+      <line x1="3" y1="10" x2="21" y2="10" />
+    </svg>
+  );
+}
+
+function IconCreditCard({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+      <line x1="1" y1="10" x2="23" y2="10" />
+    </svg>
+  );
+}
+
+function IconMusic({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <path d="M9 18V5l12-2v13" />
+      <circle cx="6" cy="18" r="3" />
+      <circle cx="18" cy="16" r="3" />
+    </svg>
+  );
+}
+
+function IconScissors({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <circle cx="6" cy="6" r="3" />
+      <circle cx="6" cy="18" r="3" />
+      <line x1="20" y1="4" x2="8.12" y2="15.88" />
+      <line x1="14.47" y1="14.48" x2="20" y2="20" />
+      <line x1="8.12" y1="8.12" x2="12" y2="12" />
+    </svg>
+  );
+}
+
+function IconPlay({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      <polygon points="5 3 19 12 5 21 5 3" />
+    </svg>
+  );
+}
+
+function IconTrash({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <polyline points="3 6 5 6 21 6" />
+      <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+    </svg>
+  );
+}
+
+function IconPlus({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  );
+}
+
+// ==========================================
+// HALAMAN ADMIN UTAMA
+// ==========================================
 export default function AdminPage() {
   const router = useRouter();
   const slug = process.env.NEXT_PUBLIC_FIXED_SLUG || "khitanan-zayyan-arkana-alfarizqi";
@@ -49,6 +194,7 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(false);
   const [pesan, setPesan] = useState<{ text: string; tipe: "success" | "error" } | null>(null);
   const [uploading, setUploading] = useState<"cover" | "acara" | "musik" | null>(null);
+  const [copiedHostLink, setCopiedHostLink] = useState(false);
   const previewAudioRef = useRef<HTMLAudioElement>(null);
 
   const setTimeFromCurrent = (field: "musik_start" | "musik_end") => {
@@ -165,7 +311,7 @@ export default function AdminPage() {
 
       if (res.ok) {
         setPesan({
-          text: "Berhasil! Seluruh perubahan tersimpan dan langsung aktif pada halaman undangan.",
+          text: "Berhasil! Seluruh data undangan telah diperbarui dan langsung aktif di website.",
           tipe: "success",
         });
       } else {
@@ -238,285 +384,404 @@ export default function AdminPage() {
 
   if (!editing) {
     return (
-      <main className="min-h-screen flex items-center justify-center bg-gray-50 p-6 font-sans">
-        <div className="text-center">
-          <p className="text-gray-700 text-lg mb-2">
-            {pesan ? pesan.text : "Memuat data admin undangan..."}
+      <main className="min-h-screen flex items-center justify-center bg-[#f8fafc] p-6 font-sans">
+        <div className="bg-white p-8 rounded-3xl border border-slate-200/90 shadow-xs text-center max-w-sm w-full">
+          <div className="w-9 h-9 border-3 border-sky-600 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-slate-800 font-semibold text-base mb-1">
+            {pesan ? pesan.text : "Memuat Data Admin Undangan..."}
           </p>
-          <p className="text-sm text-gray-500">Silakan periksa koneksi basis data PostgreSQL.</p>
+          <p className="text-xs text-slate-400">Silakan periksa koneksi basis data PostgreSQL.</p>
         </div>
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-800 p-4 md:p-8 font-sans">
-      <div className="max-w-4xl mx-auto grid gap-6">
-        {/* Header Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">Admin Panel Undangan</h1>
-            <p className="text-sm text-slate-500 mt-1">
-              Edit semua informasi teks dan foto undangan. Perubahan langsung aktif.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <a
-              href={`/u/${editing.slug}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm bg-slate-100 text-slate-700 px-4 py-2.5 rounded-lg border border-slate-300 hover:bg-slate-200 font-medium"
-            >
-              Lihat Undangan ↗
-            </a>
-            <button
-              onClick={() => router.push(`/admin/u/${slug}?${editing?.akses_token || token}`)}
-              className="text-sm bg-sky-600 text-white px-4 py-2.5 rounded-lg hover:bg-sky-700 font-medium"
-            >
-              Kelola Tamu →
-            </button>
-            <button
-              onClick={handleSave}
-              disabled={loading}
-              className="text-sm bg-emerald-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-emerald-700 disabled:opacity-50 shadow-sm"
-            >
-              {loading ? "Menyimpan..." : "Simpan Perubahan"}
-            </button>
+    <main className="min-h-screen bg-[#f8fafc] text-slate-800 p-4 sm:p-6 lg:p-8 font-sans antialiased pb-28">
+      <div className="max-w-5xl mx-auto space-y-6">
+
+        {/* 1. TOP HEADER BAR (EXECUTIVE DASHBOARD NAVBAR) */}
+        <div className="bg-white rounded-3xl border border-slate-200/80 shadow-xs p-6 md:p-7">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+            <div className="space-y-1.5">
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold tracking-wide uppercase bg-sky-50 text-sky-700 border border-sky-200/80">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sky-500 animate-pulse" />
+                  Admin Pusat
+                </span>
+                <span className="text-xs text-slate-400 font-mono">
+                  Slug: <strong className="text-slate-700">{editing.slug}</strong>
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+                Editor Undangan Digital
+              </h1>
+              <p className="text-xs sm:text-sm text-slate-500">
+                Atur informasi acara, foto, musik latar, serta tautan pengelolaan tamu untuk tuan rumah.
+              </p>
+            </div>
+
+            {/* Quick Action Buttons */}
+            <div className="flex flex-wrap items-center gap-2.5 w-full md:w-auto">
+              <a
+                href={`/u/${editing.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-2xl border border-slate-200/90 font-semibold transition"
+              >
+                <span>Lihat Undangan</span>
+                <IconExternalLink className="w-3.5 h-3.5 opacity-70" />
+              </a>
+
+              <button
+                type="button"
+                onClick={() => router.push(`/admin/u/${slug}?${editing?.akses_token || token}`)}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm bg-sky-600 hover:bg-sky-700 text-white px-4 py-2.5 rounded-2xl font-bold transition shadow-2xs hover:shadow-xs"
+              >
+                <IconUsers className="w-4 h-4" />
+                <span>Kelola Tamu</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handleSave}
+                disabled={loading}
+                className="inline-flex items-center gap-1.5 text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-2.5 rounded-2xl font-bold transition shadow-2xs hover:shadow-xs disabled:opacity-50"
+              >
+                <IconSave className="w-4 h-4" />
+                <span>{loading ? "Menyimpan..." : "Simpan Perubahan"}</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Notifikasi Pesan */}
+        {/* NOTIFIKASI PESAN */}
         {pesan && (
           <div
-            className={`p-4 rounded-xl border text-sm font-medium ${
+            className={`p-4 rounded-2xl border text-sm font-semibold flex items-center justify-between gap-3 shadow-2xs transition-all ${
               pesan.tipe === "success"
                 ? "bg-emerald-50 text-emerald-800 border-emerald-200"
                 : "bg-rose-50 text-rose-800 border-rose-200"
             }`}
           >
-            {pesan.text}
+            <div className="flex items-center gap-2">
+              <span>{pesan.tipe === "success" ? "✓" : "⚠"}</span>
+              <span>{pesan.text}</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setPesan(null)}
+              className="text-xs opacity-60 hover:opacity-100 px-2 py-1"
+            >
+              ✕
+            </button>
           </div>
         )}
 
-        {/* 1. Sampul & Identitas */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <div className="flex flex-col md:flex-row md:items-center justify-between border-b pb-2 gap-2">
-            <h2 className="text-lg font-bold text-slate-900">1. Sampul & Identitas Acara</h2>
-            <span className="text-xs text-slate-500">Slug dan Token Tuan Rumah</span>
-          </div>
-
-          {/* Akses Khusus Tuan Rumah */}
-          <div className="bg-gradient-to-r from-sky-50 to-indigo-50 border border-sky-200 p-4 rounded-xl">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🔑</span>
-                  <label className="text-xs font-bold text-sky-950 uppercase tracking-wide">
-                    Token Akses Tuan Rumah (Nama Pemesan)
-                  </label>
-                  <span className="text-[10px] bg-sky-200 text-sky-800 font-semibold px-2 py-0.5 rounded-full">
-                    Akses Mandiri
-                  </span>
-                </div>
-                <p className="text-xs text-sky-800 mt-1 leading-relaxed">
-                  Beri token sesuai nama pemesan/tuan rumah (contoh: <strong>bumarpuah</strong>). Tuan rumah dapat langsung mengelola dan membagikan undangan tanpa perlu password.
-                </p>
-                <div className="flex flex-wrap items-center gap-2 mt-3">
-                  <div className="flex items-center border border-sky-300 rounded-lg bg-white px-2.5 py-1.5 shadow-sm">
-                    <span className="text-xs text-slate-400 font-mono select-none">?</span>
-                    <input
-                      value={editing.akses_token || ""}
-                      onChange={(e) =>
-                        setEditing({
-                          ...editing,
-                          akses_token: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
-                        })
-                      }
-                      className="text-sm font-mono font-bold text-sky-900 bg-transparent outline-none w-36 ml-1"
-                      placeholder="bumarpuah"
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const hostToken = editing.akses_token || "bumarpuah";
-                      const hostUrl = `${window.location.origin}/admin/u/${editing.slug}?${hostToken}`;
-                      navigator.clipboard.writeText(hostUrl);
-                      setPesan({
-                        tipe: "success",
-                        text: `Tautan Tuan Rumah berhasil disalin: ${hostUrl}`,
-                      });
-                    }}
-                    className="text-xs bg-sky-600 hover:bg-sky-700 text-white px-3.5 py-2 rounded-lg font-medium shadow-sm transition-all"
-                  >
-                    📋 Salin Link Tuan Rumah
-                  </button>
-
-                  <a
-                    href={`/admin/u/${editing.slug}?${editing.akses_token || "bumarpuah"}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs bg-white hover:bg-sky-50 text-sky-800 border border-sky-300 px-3.5 py-2 rounded-lg font-medium shadow-sm"
-                  >
-                    ↗ Buka Panel Tuan Rumah
-                  </a>
-                </div>
-              </div>
+        {/* ======================================================== */}
+        {/* SEKSI 1: AKSES MANDIRI TUAN RUMAH & SAMPUL */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-9 h-9 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+              <IconKey className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                1. Akses Tuan Rumah &amp; Identitas Sampul
+              </h2>
+              <p className="text-xs text-slate-500">
+                Token tautan mandiri pemesan acara beserta judul sampul undangan
+              </p>
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-4">
+          {/* KOTAK AKSES TUAN RUMAH (ELEGANT CALLOUT) */}
+          <div className="bg-gradient-to-r from-sky-50/80 via-indigo-50/50 to-sky-50/80 border border-sky-200/90 p-5 rounded-2xl space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-sky-950 uppercase tracking-wide">
+                  Token Akses Tuan Rumah
+                </span>
+                <span className="text-[10px] bg-sky-200/80 text-sky-800 font-extrabold px-2 py-0.5 rounded-full">
+                  Tanpa Password
+                </span>
+              </div>
+              <span className="text-xs text-sky-700/80">
+                Cukup bagikan tautan ini ke pemesan / tuan rumah acara
+              </span>
+            </div>
+
+            <p className="text-xs text-sky-900 leading-relaxed font-medium">
+              Beri token sesuai nama pemesan/tuan rumah (contoh: <strong>bumarpuah</strong>). Tuan rumah dapat langsung mengelola dan membagikan undangan tanpa perlu password rumit.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-2.5 pt-1">
+              <div className="flex items-center border border-sky-300 rounded-xl bg-white px-3 py-2 shadow-2xs">
+                <span className="text-xs text-slate-400 font-mono select-none">?</span>
+                <input
+                  value={editing.akses_token || ""}
+                  onChange={(e) =>
+                    setEditing({
+                      ...editing,
+                      akses_token: e.target.value.toLowerCase().replace(/[^a-z0-9_-]/g, ""),
+                    })
+                  }
+                  className="text-sm font-mono font-bold text-sky-900 bg-transparent outline-none w-36 ml-1"
+                  placeholder="bumarpuah"
+                />
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  const hostToken = editing.akses_token || "bumarpuah";
+                  const hostUrl = `${window.location.origin}/admin/u/${editing.slug}?${hostToken}`;
+                  navigator.clipboard.writeText(hostUrl);
+                  setCopiedHostLink(true);
+                  setTimeout(() => setCopiedHostLink(false), 2000);
+                  setPesan({
+                    tipe: "success",
+                    text: `Tautan Tuan Rumah berhasil disalin: ${hostUrl}`,
+                  });
+                }}
+                className="text-xs bg-sky-600 hover:bg-sky-700 text-white px-4 py-2.5 rounded-xl font-bold shadow-2xs hover:shadow-xs transition inline-flex items-center gap-1.5"
+              >
+                {copiedHostLink ? (
+                  <>
+                    <IconCheck className="w-3.5 h-3.5" />
+                    <span>Tersalin!</span>
+                  </>
+                ) : (
+                  <>
+                    <IconCopy className="w-3.5 h-3.5" />
+                    <span>Salin Link Tuan Rumah</span>
+                  </>
+                )}
+              </button>
+
+              <a
+                href={`/admin/u/${editing.slug}?${editing.akses_token || "bumarpuah"}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-xs bg-white hover:bg-sky-50 text-sky-800 border border-sky-200/90 px-4 py-2.5 rounded-xl font-bold shadow-2xs transition inline-flex items-center gap-1.5"
+              >
+                <span>Buka Panel Tuan Rumah</span>
+                <IconExternalLink className="w-3.5 h-3.5 opacity-70" />
+              </a>
+            </div>
+          </div>
+
+          {/* Form Fields Sampul */}
+          <div className="grid md:grid-cols-2 gap-4 pt-1">
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Slug URL</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Slug URL Undangan
+              </label>
               <input
                 value={editing.slug}
                 onChange={(e) => setEditing({ ...editing, slug: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-mono font-medium outline-none transition"
                 placeholder="slug-url-undangan"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Judul Sampul</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Judul Sampul
+              </label>
               <input
                 value={editing.judul_sampul || ""}
                 onChange={(e) => setEditing({ ...editing, judul_sampul: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="UNDANGAN"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Tanggal di Sampul</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Tanggal di Sampul Depan
+              </label>
               <input
                 value={editing.tanggal_sampul || ""}
                 onChange={(e) => setEditing({ ...editing, tanggal_sampul: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Rabu, 18 November 2026"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Nama Lengkap Anak</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Nama Lengkap Anak (Yang Dikhitan)
+              </label>
               <input
                 value={editing.nama_anak}
                 onChange={(e) => setEditing({ ...editing, nama_anak: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none font-semibold text-rose-700"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-bold text-slate-900 outline-none transition"
                 placeholder="Nama Lengkap Anak"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Label Acara</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Label Acara
+              </label>
               <input
                 value={editing.label_acara || ""}
                 onChange={(e) => setEditing({ ...editing, label_acara: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Khitanan :"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Nama Orang Tua</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Nama Orang Tua
+              </label>
               <input
                 value={editing.nama_orang_tua}
                 onChange={(e) => setEditing({ ...editing, nama_orang_tua: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Bpk. Kastam - Ibu Sarinih"
               />
             </div>
-            <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Teks Keluarga Penutup</label>
+            <div className="md:col-span-2">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Teks Penutup Keluarga
+              </label>
               <input
                 value={editing.sekeluarga || ""}
                 onChange={(e) => setEditing({ ...editing, sekeluarga: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Sekeluarga"
               />
             </div>
           </div>
         </section>
 
-        {/* 2. Foto Cover & Foto Acara */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <h2 className="text-lg font-bold text-slate-900 border-b pb-2">2. Foto Dokumentasi</h2>
+        {/* ======================================================== */}
+        {/* SEKSI 2: FOTO DOKUMENTASI */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-9 h-9 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
+              <IconImage className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                2. Foto Dokumentasi Undangan
+              </h2>
+              <p className="text-xs text-slate-500">
+                Unggah foto cover depan dan foto profil acara
+              </p>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-6">
             {/* Foto Cover */}
-            <div className="border border-slate-200 p-4 rounded-xl flex flex-col justify-between">
+            <div className="border border-slate-200/90 p-5 rounded-2xl bg-slate-50/30 flex flex-col justify-between space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-800">Foto Cover (Halaman Depan)</label>
-                <p className="text-xs text-slate-500 mb-3">Tampil di bingkai lengkung bagian atas</p>
+                <label className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                  Foto Cover (Halaman Depan)
+                </label>
+                <p className="text-xs text-slate-400 mt-0.5 mb-3">Tampil di bingkai lengkung atas</p>
                 {editing.foto_cover ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
                   <img
                     src={editing.foto_cover}
                     alt="Foto Cover"
-                    className="w-full h-44 object-cover rounded-lg border mb-3 bg-slate-100"
+                    className="w-full h-44 object-cover rounded-2xl border border-slate-200 shadow-2xs mb-2 bg-slate-100"
                   />
                 ) : (
-                  <div className="w-full h-44 flex items-center justify-center bg-slate-100 text-slate-400 text-xs rounded-lg border mb-3">
+                  <div className="w-full h-44 flex items-center justify-center bg-slate-100 text-slate-400 text-xs rounded-2xl border border-dashed border-slate-300 mb-2">
                     Belum ada foto cover (placeholder aktif)
                   </div>
                 )}
               </div>
-              <div className="grid gap-2">
+
+              <div className="space-y-2">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleUpload(e, "foto_cover")}
                   disabled={uploading !== null}
-                  className="text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer"
+                  className="text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer w-full"
                 />
-                {uploading === "cover" && <p className="text-xs text-sky-600">Mengunggah foto...</p>}
+                {uploading === "cover" && (
+                  <p className="text-xs text-sky-600 font-semibold animate-pulse">Mengunggah foto cover...</p>
+                )}
                 <input
                   value={editing.foto_cover || ""}
                   onChange={(e) => setEditing({ ...editing, foto_cover: e.target.value })}
                   placeholder="Atau tempel URL gambar di sini"
-                  className="border p-2 rounded-lg text-xs"
+                  className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-xs font-mono outline-none"
                 />
               </div>
             </div>
 
             {/* Foto Acara */}
-            <div className="border border-slate-200 p-4 rounded-xl flex flex-col justify-between">
+            <div className="border border-slate-200/90 p-5 rounded-2xl bg-slate-50/30 flex flex-col justify-between space-y-4">
               <div>
-                <label className="text-sm font-semibold text-slate-800">Foto Acara (Foto Bulat)</label>
-                <p className="text-xs text-slate-500 mb-3">Tampil di lingkaran bagian detail acara</p>
-                <div className="flex justify-center mb-3">
+                <label className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+                  Foto Profil Acara (Foto Bulat)
+                </label>
+                <p className="text-xs text-slate-400 mt-0.5 mb-3">Tampil di lingkaran detail acara</p>
+                <div className="flex justify-center mb-2">
                   {editing.foto_acara ? (
+                    /* eslint-disable-next-line @next/next/no-img-element */
                     <img
                       src={editing.foto_acara}
                       alt="Foto Acara"
-                      className="w-36 h-36 object-cover rounded-full border-4 border-slate-100 shadow-sm bg-slate-100"
+                      className="w-36 h-36 object-cover rounded-full border-4 border-white shadow-sm bg-slate-100"
                     />
                   ) : (
-                    <div className="w-36 h-36 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 text-xs border text-center p-2">
+                    <div className="w-36 h-36 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 text-xs border border-dashed border-slate-300 text-center p-3">
                       Belum ada foto acara
                     </div>
                   )}
                 </div>
               </div>
-              <div className="grid gap-2">
+
+              <div className="space-y-2">
                 <input
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleUpload(e, "foto_acara")}
                   disabled={uploading !== null}
-                  className="text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer"
+                  className="text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-sky-50 file:text-sky-700 hover:file:bg-sky-100 cursor-pointer w-full"
                 />
-                {uploading === "acara" && <p className="text-xs text-sky-600">Mengunggah foto...</p>}
+                {uploading === "acara" && (
+                  <p className="text-xs text-sky-600 font-semibold animate-pulse">Mengunggah foto acara...</p>
+                )}
                 <input
                   value={editing.foto_acara || ""}
                   onChange={(e) => setEditing({ ...editing, foto_acara: e.target.value })}
                   placeholder="Atau tempel URL gambar di sini"
-                  className="border p-2 rounded-lg text-xs"
+                  className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-xs font-mono outline-none"
                 />
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. Waktu, Tempat & Countdown */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <h2 className="text-lg font-bold text-slate-900 border-b pb-2">3. Waktu, Jadwal & Lokasi</h2>
+        {/* ======================================================== */}
+        {/* SEKSI 3: WAKTU, JADWAL & LOKASI */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-9 h-9 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
+              <IconCalendar className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                3. Waktu, Jadwal &amp; Lokasi Acara
+              </h2>
+              <p className="text-xs text-slate-500">
+                Target hitung mundur (countdown), alamat peta lokasi, serta hiburan
+              </p>
+            </div>
+          </div>
+
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Tanggal Target Countdown</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Tanggal Target Countdown
+              </label>
               <input
                 type="date"
                 value={
@@ -527,158 +792,143 @@ export default function AdminPage() {
                     : ""
                 }
                 onChange={(e) => setEditing({ ...editing, tanggal: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Jam Target Countdown</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Jam Target Countdown
+              </label>
               <input
                 type="time"
                 value={editing.jam ? String(editing.jam).slice(0, 5) : ""}
                 onChange={(e) => setEditing({ ...editing, jam: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Hiburan</label>
-              <input
-                value={editing.hiburan || ""}
-                onChange={(e) => setEditing({ ...editing, hiburan: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
-                placeholder="Seni Reog Vikar Group"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Tempat & Bulan Singkat (Header Acara)</label>
-              <input
-                value={editing.tempat_singkat || ""}
-                onChange={(e) => setEditing({ ...editing, tempat_singkat: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
-                placeholder="Rambatan Kulon, November 2026"
-              />
-            </div>
-            <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Teks Hari Acara</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Teks Hari Acara
+              </label>
               <input
                 value={editing.hari_acara || ""}
                 onChange={(e) => setEditing({ ...editing, hari_acara: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Rabu malam Kamis"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Teks Tanggal Acara</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Teks Tanggal Acara
+              </label>
               <input
                 value={editing.tanggal_acara || ""}
                 onChange={(e) => setEditing({ ...editing, tanggal_acara: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="18 – 19 November 2026"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Teks Waktu Acara</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Teks Waktu Acara
+              </label>
               <input
                 value={editing.jam_acara || ""}
                 onChange={(e) => setEditing({ ...editing, jam_acara: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
                 placeholder="Pkl. 08.00 Wib s/d Selesai"
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Link Google Maps</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Hiburan Acara
+              </label>
               <input
-                value={editing.maps_url || ""}
-                onChange={(e) => setEditing({ ...editing, maps_url: e.target.value })}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
-                placeholder="https://maps.app.goo.gl/..."
+                value={editing.hiburan || ""}
+                onChange={(e) => setEditing({ ...editing, hiburan: e.target.value })}
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
+                placeholder="Seni Reog Vikar Group"
               />
             </div>
+            <div>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Tempat &amp; Bulan Singkat (Header)
+              </label>
+              <input
+                value={editing.tempat_singkat || ""}
+                onChange={(e) => setEditing({ ...editing, tempat_singkat: e.target.value })}
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
+                placeholder="Rambatan Kulon, November 2026"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Tautan Google Maps
+              </label>
+              <div className="relative">
+                <input
+                  value={editing.maps_url || ""}
+                  onChange={(e) => setEditing({ ...editing, maps_url: e.target.value })}
+                  className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
+                  placeholder="https://maps.app.goo.gl/..."
+                />
+              </div>
+            </div>
             <div className="md:col-span-2">
-              <label className="text-xs font-semibold text-slate-600 uppercase">Alamat Lengkap Tempat Acara</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Alamat Lengkap Tempat Acara
+              </label>
               <textarea
                 value={editing.lokasi}
                 onChange={(e) => setEditing({ ...editing, lokasi: e.target.value })}
                 rows={2}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition leading-relaxed"
                 placeholder="Desa Rambatan Kulon (Bangkir) Rt. 07 Rw. 01 blok Kangkung Kec. Lohbener Kab. Indramayu"
               />
             </div>
           </div>
         </section>
 
-        {/* 4. Turut Mengundang */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <div className="flex justify-between items-center border-b pb-2">
-            <h2 className="text-lg font-bold text-slate-900">4. Turut Mengundang</h2>
-            <button
-              onClick={() =>
-                setEditing({
-                  ...editing,
-                  turut_mengundang: [...editing.turut_mengundang, ""],
-                })
-              }
-              className="text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 font-semibold px-3 py-1.5 rounded-lg border border-sky-200"
-            >
-              + Tambah Nama
-            </button>
-          </div>
-          <div className="grid gap-2">
-            {editing.turut_mengundang.map((item, i) => (
-              <div key={i} className="flex gap-2 items-center">
-                <span className="text-xs font-semibold text-slate-400 w-6 text-right">{i + 1}.</span>
-                <input
-                  value={item}
-                  onChange={(e) => {
-                    const arr = [...editing.turut_mengundang];
-                    arr[i] = e.target.value;
-                    setEditing({ ...editing, turut_mengundang: arr });
-                  }}
-                  className="border p-2 rounded-lg text-sm flex-1 focus:ring-2 focus:ring-sky-500 outline-none"
-                  placeholder="Nama kerabat yang turut mengundang"
-                />
-                <button
-                  onClick={() =>
-                    setEditing({
-                      ...editing,
-                      turut_mengundang: editing.turut_mengundang.filter((_, idx) => idx !== i),
-                    })
-                  }
-                  className="text-xs text-rose-600 hover:text-rose-800 px-2 py-1"
-                >
-                  Hapus
-                </button>
+        {/* ======================================================== */}
+        {/* SEKSI 4: KAMI YANG BERBAHAGIA & TURUT MENGUNDANG */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
+                <IconUsers className="w-5 h-5" />
               </div>
-            ))}
-          </div>
-        </section>
-
-        {/* 5. Kami yang Berbahagia & Alamat Keluarga */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <div className="flex justify-between items-center border-b pb-2">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">5. Kami yang Berbahagia & Do&apos;a</h2>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Daftar nama tuan rumah / keluarga yang berbahagia. Data ini otomatis tampil seragam di akhir Section 2 (setelah Wassalamu&apos;alaikum) dan di Section 3 (Kami yang Berbahagia).
-              </p>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                  4. Kami yang Berbahagia (Tuan Rumah)
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Daftar nama keluarga yang berbahagia. Ditampilkan di undangan dan template WhatsApp.
+                </p>
+              </div>
             </div>
             <button
+              type="button"
               onClick={() =>
                 setEditing({
                   ...editing,
                   orang_berbahagia: [...editing.orang_berbahagia, { nama: "", keterangan: "" }],
                 })
               }
-              className="text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 font-semibold px-3 py-1.5 rounded-lg border border-sky-200"
+              className="inline-flex items-center gap-1.5 text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold px-3.5 py-2 rounded-xl border border-emerald-200/80 transition"
             >
-              + Tambah Orang Berbahagia
+              <IconPlus className="w-3.5 h-3.5" />
+              <span>Tambah Tuan Rumah</span>
             </button>
           </div>
 
-          <div className="grid gap-3">
+          <div className="space-y-3">
             {editing.orang_berbahagia.map((item, i) => (
-              <div key={i} className="grid md:grid-cols-2 gap-2 border border-slate-200 p-3 rounded-lg relative">
+              <div key={i} className="grid md:grid-cols-2 gap-3 border border-slate-200/80 bg-slate-50/40 p-4 rounded-2xl relative">
                 <div>
-                  <label className="text-xs text-slate-500">Nama</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                    Nama ({i + 1})
+                  </label>
                   <input
                     value={item.nama}
                     onChange={(e) => {
@@ -686,12 +936,14 @@ export default function AdminPage() {
                       arr[i] = { ...arr[i], nama: e.target.value };
                       setEditing({ ...editing, orang_berbahagia: arr });
                     }}
-                    className="w-full border p-2 rounded-lg text-sm font-semibold"
+                    className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-sm font-bold text-slate-900 outline-none"
                     placeholder="Bpk. KASTAM"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500">Keterangan / Silsilah</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                    Keterangan / Silsilah
+                  </label>
                   <textarea
                     value={item.keterangan}
                     onChange={(e) => {
@@ -700,54 +952,130 @@ export default function AdminPage() {
                       setEditing({ ...editing, orang_berbahagia: arr });
                     }}
                     rows={2}
-                    className="w-full border p-2 rounded-lg text-sm"
+                    className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-xs font-medium outline-none"
                     placeholder="Bin Bpk. ... / Asal daerah"
                   />
                 </div>
-                <button
-                  onClick={() =>
-                    setEditing({
-                      ...editing,
-                      orang_berbahagia: editing.orang_berbahagia.filter((_, idx) => idx !== i),
-                    })
-                  }
-                  className="text-xs text-rose-600 hover:text-rose-800 self-start md:col-span-2 text-right"
-                >
-                  Hapus Baris Ini
-                </button>
+                <div className="md:col-span-2 flex justify-end">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setEditing({
+                        ...editing,
+                        orang_berbahagia: editing.orang_berbahagia.filter((_, idx) => idx !== i),
+                      })
+                    }
+                    className="text-xs text-rose-600 hover:text-rose-800 font-semibold inline-flex items-center gap-1"
+                  >
+                    <IconTrash className="w-3.5 h-3.5" />
+                    <span>Hapus Baris Ini</span>
+                  </button>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="grid gap-3 mt-2">
+          <div className="grid md:grid-cols-2 gap-4 pt-2">
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Alamat Keluarga</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Alamat Keluarga Tuan Rumah
+              </label>
               <textarea
                 value={editing.alamat_keluarga || ""}
                 onChange={(e) => setEditing({ ...editing, alamat_keluarga: e.target.value })}
                 rows={3}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition leading-relaxed"
                 placeholder="Desa Rambatan Kulon (Bangkir) Rt. 07 Rw. 01..."
               />
             </div>
             <div>
-              <label className="text-xs font-semibold text-slate-600 uppercase">Ayat / Do&apos;a Kutipan</label>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Ayat / Kutipan Do&apos;a
+              </label>
               <textarea
                 value={editing.ayat || ""}
                 onChange={(e) => setEditing({ ...editing, ayat: e.target.value })}
                 rows={3}
-                className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none italic"
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-serif italic outline-none transition leading-relaxed"
                 placeholder="Kutipan doa atau ayat..."
               />
             </div>
           </div>
+
+          {/* Turut Mengundang List */}
+          <div className="pt-4 border-t border-slate-100 space-y-3">
+            <div className="flex justify-between items-center">
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Turut Mengundang
+              </label>
+              <button
+                type="button"
+                onClick={() =>
+                  setEditing({
+                    ...editing,
+                    turut_mengundang: [...editing.turut_mengundang, ""],
+                  })
+                }
+                className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-xl transition inline-flex items-center gap-1"
+              >
+                <IconPlus className="w-3.5 h-3.5" />
+                <span>Tambah Kerabat</span>
+              </button>
+            </div>
+
+            <div className="space-y-2">
+              {editing.turut_mengundang.map((item, i) => (
+                <div key={i} className="flex gap-2 items-center">
+                  <span className="text-xs font-mono font-bold text-slate-400 w-6 text-right select-none">{i + 1}.</span>
+                  <input
+                    value={item}
+                    onChange={(e) => {
+                      const arr = [...editing.turut_mengundang];
+                      arr[i] = e.target.value;
+                      setEditing({ ...editing, turut_mengundang: arr });
+                    }}
+                    className="border border-slate-200 bg-slate-50/50 p-2.5 rounded-xl text-sm flex-1 focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
+                    placeholder="Nama kerabat yang turut mengundang"
+                  />
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setEditing({
+                        ...editing,
+                        turut_mengundang: editing.turut_mengundang.filter((_, idx) => idx !== i),
+                      })
+                    }
+                    className="p-2 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition"
+                    title="Hapus"
+                  >
+                    <IconTrash className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
         </section>
 
-        {/* 6. Amplop Digital & Rekening */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <div className="flex justify-between items-center border-b pb-2">
-            <h2 className="text-lg font-bold text-slate-900">6. Rekening & E-Wallet (Amplop Digital)</h2>
+        {/* ======================================================== */}
+        {/* SEKSI 5: REKENING & E-WALLET (AMPLOP DIGITAL) */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center font-bold">
+                <IconCreditCard className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                  5. Rekening &amp; E-Wallet (Amplop Digital)
+                </h2>
+                <p className="text-xs text-slate-500">
+                  Daftar opsi transfer tanda kasih untuk para tamu
+                </p>
+              </div>
+            </div>
             <button
+              type="button"
               onClick={() =>
                 setEditing({
                   ...editing,
@@ -757,17 +1085,20 @@ export default function AdminPage() {
                   ],
                 })
               }
-              className="text-xs bg-sky-50 text-sky-700 hover:bg-sky-100 font-semibold px-3 py-1.5 rounded-lg border border-sky-200"
+              className="inline-flex items-center gap-1.5 text-xs bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold px-3.5 py-2 rounded-xl border border-sky-200/80 transition"
             >
-              + Tambah Rekening
+              <IconPlus className="w-3.5 h-3.5" />
+              <span>Tambah Rekening</span>
             </button>
           </div>
 
-          <div className="grid gap-3">
+          <div className="space-y-3">
             {editing.rekening.map((item, i) => (
-              <div key={i} className="grid grid-cols-1 md:grid-cols-4 gap-2 border border-slate-200 p-3 rounded-lg items-center">
+              <div key={i} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 border border-slate-200/80 bg-slate-50/40 p-4 rounded-2xl items-end">
                 <div>
-                  <label className="text-xs text-slate-500">Tipe</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                    Tipe
+                  </label>
                   <select
                     value={item.type}
                     onChange={(e) => {
@@ -775,14 +1106,16 @@ export default function AdminPage() {
                       arr[i] = { ...arr[i], type: e.target.value as "bank" | "wallet" };
                       setEditing({ ...editing, rekening: arr });
                     }}
-                    className="w-full border p-2 rounded-lg text-sm bg-white"
+                    className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-sm font-semibold outline-none"
                   >
                     <option value="bank">Bank</option>
                     <option value="wallet">E-Wallet</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500">Label (BCA / DANA / OVO)</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                    Label (BCA / DANA / OVO)
+                  </label>
                   <input
                     value={item.label}
                     onChange={(e) => {
@@ -790,12 +1123,14 @@ export default function AdminPage() {
                       arr[i] = { ...arr[i], label: e.target.value };
                       setEditing({ ...editing, rekening: arr });
                     }}
-                    className="w-full border p-2 rounded-lg text-sm"
+                    className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-sm font-bold outline-none"
                     placeholder="BCA / BRI / DANA"
                   />
                 </div>
                 <div>
-                  <label className="text-xs text-slate-500">Nomor Rekening / HP</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                    Nomor Rekening / HP
+                  </label>
                   <input
                     value={item.no}
                     onChange={(e) => {
@@ -803,13 +1138,15 @@ export default function AdminPage() {
                       arr[i] = { ...arr[i], no: e.target.value };
                       setEditing({ ...editing, rekening: arr });
                     }}
-                    className="w-full border p-2 rounded-lg text-sm font-mono"
+                    className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-sm font-mono font-bold outline-none"
                     placeholder="1234567890"
                   />
                 </div>
-                <div className="flex gap-2 items-end">
+                <div className="flex gap-2 items-center">
                   <div className="flex-1">
-                    <label className="text-xs text-slate-500">Atas Nama Pemilik</label>
+                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
+                      Atas Nama Pemilik
+                    </label>
                     <input
                       value={item.name}
                       onChange={(e) => {
@@ -817,206 +1154,243 @@ export default function AdminPage() {
                         arr[i] = { ...arr[i], name: e.target.value };
                         setEditing({ ...editing, rekening: arr });
                       }}
-                      className="w-full border p-2 rounded-lg text-sm"
+                      className="w-full border border-slate-200 bg-white p-2.5 rounded-xl text-sm font-medium outline-none"
                       placeholder="Nama Pemilik"
                     />
                   </div>
                   <button
+                    type="button"
                     onClick={() =>
                       setEditing({
                         ...editing,
                         rekening: editing.rekening.filter((_, idx) => idx !== i),
                       })
                     }
-                    className="text-xs text-rose-600 hover:text-rose-800 p-2 mb-0.5"
+                    className="p-2.5 text-slate-400 hover:text-rose-600 rounded-xl hover:bg-rose-50 transition"
                     title="Hapus Rekening"
                   >
-                    Hapus
+                    <IconTrash className="w-4 h-4" />
                   </button>
                 </div>
               </div>
             ))}
           </div>
-        </section>
 
-        {/* 7. Footer Text */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-3">
-          <h2 className="text-lg font-bold text-slate-900 border-b pb-2">7. Teks Footer</h2>
-          <div>
-            <label className="text-xs font-semibold text-slate-600 uppercase">Ucapan Penutup Halaman</label>
+          <div className="pt-2">
+            <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+              Ucapan Footer Penutup Halaman
+            </label>
             <input
               value={editing.footer_text || ""}
               onChange={(e) => setEditing({ ...editing, footer_text: e.target.value })}
-              className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-sky-500 outline-none"
+              className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-sky-500 font-medium outline-none transition"
               placeholder="Terima kasih atas do'a restu Bapak/Ibu/Saudara/i"
             />
           </div>
         </section>
 
-        {/* 8. Musik Latar */}
-        <section className="bg-white p-6 rounded-xl shadow-sm border border-slate-200 grid gap-4">
-          <h2 className="text-lg font-bold text-slate-900 border-b pb-2">8. Musik Latar Undangan 🎵</h2>
-          <p className="text-xs text-slate-500 -mt-2">
-            Musik akan otomatis diputar (muted) saat tamu membuka undangan dan dapat diaktifkan dengan klik tombol.
-            Format yang didukung: <strong>MP3, M4A, AAC, OGG</strong> (maks. 20 MB). Disarankan durasi 2–4 menit, lalu loop otomatis.
-          </p>
+        {/* ======================================================== */}
+        {/* SEKSI 6: MUSIK LATAR & PEMOTONG DURASI */}
+        {/* ======================================================== */}
+        <section className="bg-white p-6 sm:p-7 rounded-3xl shadow-xs border border-slate-200/80 space-y-5">
+          <div className="flex items-center gap-3 pb-3 border-b border-slate-100">
+            <div className="w-9 h-9 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center font-bold">
+              <IconMusic className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 tracking-tight">
+                6. Musik Latar Undangan &amp; Pengaturan Loop
+              </h2>
+              <p className="text-xs text-slate-500">
+                Putar lagu otomatis saat tamu membuka undangan (dukung potong menit reff / chorus)
+              </p>
+            </div>
+          </div>
 
-          {/* Upload file audio */}
-          <div className="border border-slate-200 p-4 rounded-xl grid gap-3">
-            <label className="text-sm font-semibold text-slate-800">Upload File Musik dari Komputer</label>
+          {/* Upload File Musik */}
+          <div className="border border-slate-200/90 p-5 rounded-2xl bg-slate-50/40 space-y-3">
+            <label className="text-xs font-bold text-slate-800 uppercase tracking-wider block">
+              Upload File Musik (MP3, M4A, OGG, AAC - Maks. 20 MB)
+            </label>
             <input
               type="file"
               accept="audio/mpeg,audio/mp4,audio/ogg,audio/wav,audio/aac,.mp3,.m4a,.ogg,.wav,.aac"
               onChange={handleUploadMusik}
               disabled={uploading !== null}
-              className="text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 cursor-pointer"
+              className="text-xs text-slate-600 file:mr-3 file:py-2 file:px-3.5 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-100 file:text-purple-700 hover:file:bg-purple-200 cursor-pointer w-full"
             />
             {uploading === "musik" && (
-              <p className="text-xs text-purple-600 animate-pulse">⏳ Mengunggah musik... mohon tunggu.</p>
+              <p className="text-xs text-purple-600 font-semibold animate-pulse">Mengunggah audio... mohon tunggu.</p>
             )}
           </div>
 
-          {/* Judul lagu */}
-          <div>
-            <label className="text-xs font-semibold text-slate-600 uppercase">Judul Lagu (ditampilkan di player)</label>
-            <input
-              value={editing.musik_judul || ""}
-              onChange={(e) => setEditing({ ...editing, musik_judul: e.target.value })}
-              className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-purple-500 outline-none"
-              placeholder="Contoh: Sholawat Nabi — Maher Zain"
-            />
-          </div>
-
-          {/* URL manual */}
-          <div>
-            <label className="text-xs font-semibold text-slate-600 uppercase">Atau Tempel URL Langsung (MP3/M4A/OGG)</label>
-            <input
-              value={editing.musik_url || ""}
-              onChange={(e) => setEditing({ ...editing, musik_url: e.target.value })}
-              className="w-full border p-2.5 rounded-lg text-sm mt-1 focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-              placeholder="https://... atau /uploads/nama-file.mp3"
-            />
-          </div>
-
-          {/* Pengaturan Potongan Durasi Lagu (Menit:Detik) */}
-          <div className="bg-purple-50/60 border border-purple-200 rounded-xl p-4 grid gap-3">
+          <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-1.5">
-                <span>✂️</span> Potong Durasi Pemutaran (Mulai & Selesai)
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Judul Lagu (Tersimpan di Metadata)
+              </label>
+              <input
+                value={editing.musik_judul || ""}
+                onChange={(e) => setEditing({ ...editing, musik_judul: e.target.value })}
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 font-medium outline-none transition"
+                placeholder="Contoh: Raim Laode - Bersenja Gurau"
+              />
+            </div>
+            <div>
+              <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block mb-1.5">
+                Atau Tempel URL Audio Langsung
+              </label>
+              <input
+                value={editing.musik_url || ""}
+                onChange={(e) => setEditing({ ...editing, musik_url: e.target.value })}
+                className="w-full border border-slate-200 bg-slate-50/50 p-3 rounded-2xl text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 font-mono text-xs outline-none transition"
+                placeholder="/uploads/nama-file.mp3 atau https://..."
+              />
+            </div>
+          </div>
+
+          {/* KOTAK POTONG DURASI MUSIK (TRIM & LOOP) */}
+          <div className="bg-gradient-to-r from-purple-50/80 via-fuchsia-50/40 to-purple-50/80 border border-purple-200/90 rounded-2xl p-5 space-y-4">
+            <div>
+              <h3 className="text-sm font-bold text-purple-950 flex items-center gap-2">
+                <IconScissors className="w-4 h-4 text-purple-600" />
+                <span>Pengaturan Potongan Menit Lagu (Reff / Bagian Terbaik)</span>
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
-                Atur menit & detik bagian terbaik lagu (misal langsung masuk bagian <strong>Reff / Chorus</strong>). Tamu biasanya membaca undangan dalam waktu singkat.
+              <p className="text-xs text-purple-800/80 mt-0.5">
+                Tamu biasanya melihat undangan secara singkat. Atur bagian lagu langsung ke reff agar langsung terdengar syahdu.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-semibold text-slate-700 uppercase">
-                  Mulai dari (Menit : Detik)
+                <label className="text-xs font-bold text-purple-900 uppercase tracking-wider block mb-1">
+                  Mulai Dari (Menit : Detik)
                 </label>
-                <div className="flex gap-2 mt-1">
+                <div className="flex gap-2">
                   <input
                     value={editing.musik_start || ""}
                     onChange={(e) => setEditing({ ...editing, musik_start: e.target.value })}
-                    className="flex-1 border p-2.5 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-                    placeholder="00:30 (atau detik, misal 30)"
+                    className="flex-1 border border-purple-200 bg-white p-2.5 rounded-xl text-sm font-mono font-bold outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="00:30"
                   />
                   {editing.musik_url && (
                     <button
                       type="button"
                       onClick={() => setTimeFromCurrent("musik_start")}
-                      title="Isi dengan posisi pemutar audio saat ini"
-                      className="text-xs bg-white border border-purple-300 text-purple-700 hover:bg-purple-100 px-2.5 py-1 rounded-lg font-medium whitespace-nowrap shadow-sm"
+                      title="Isi dengan posisi waktu pemutar audio saat ini"
+                      className="text-xs bg-white border border-purple-300 text-purple-700 hover:bg-purple-100 px-3 py-2 rounded-xl font-bold whitespace-nowrap shadow-2xs transition"
                     >
-                      ⏱ Set Saat Ini
+                      Set Posisi Saat Ini
                     </button>
                   )}
                 </div>
-                <p className="text-[11px] text-slate-400 mt-0.5">Contoh: <strong>00:45</strong> (mulai di detik ke-45)</p>
+                <p className="text-[11px] text-purple-700/70 mt-1 font-medium">Contoh: <strong>00:45</strong> (mulai di detik ke-45)</p>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-slate-700 uppercase">
-                  Selesai pada (Menit : Detik)
+                <label className="text-xs font-bold text-purple-900 uppercase tracking-wider block mb-1">
+                  Selesai Pada (Menit : Detik)
                 </label>
-                <div className="flex gap-2 mt-1">
+                <div className="flex gap-2">
                   <input
                     value={editing.musik_end || ""}
                     onChange={(e) => setEditing({ ...editing, musik_end: e.target.value })}
-                    className="flex-1 border p-2.5 rounded-lg text-sm focus:ring-2 focus:ring-purple-500 outline-none font-mono"
-                    placeholder="02:15 (kosongkan jika sampai akhir)"
+                    className="flex-1 border border-purple-200 bg-white p-2.5 rounded-xl text-sm font-mono font-bold outline-none focus:ring-2 focus:ring-purple-500"
+                    placeholder="02:15"
                   />
                   {editing.musik_url && (
                     <button
                       type="button"
                       onClick={() => setTimeFromCurrent("musik_end")}
-                      title="Isi dengan posisi pemutar audio saat ini"
-                      className="text-xs bg-white border border-purple-300 text-purple-700 hover:bg-purple-100 px-2.5 py-1 rounded-lg font-medium whitespace-nowrap shadow-sm"
+                      title="Isi dengan posisi waktu pemutar audio saat ini"
+                      className="text-xs bg-white border border-purple-300 text-purple-700 hover:bg-purple-100 px-3 py-2 rounded-xl font-bold whitespace-nowrap shadow-2xs transition"
                     >
-                      ⏱ Set Saat Ini
+                      Set Posisi Saat Ini
                     </button>
                   )}
                 </div>
-                <p className="text-[11px] text-slate-400 mt-0.5">Bila tercapai, lagu otomatis berulang (loop) kembali ke menit mulai.</p>
+                <p className="text-[11px] text-purple-700/70 mt-1 font-medium">Bila tercapai, lagu otomatis berulang (loop) ke menit mulai.</p>
               </div>
             </div>
           </div>
 
-          {/* Preview player */}
-          {editing.musik_url && (
-            <div className="border border-purple-200 bg-purple-50 rounded-xl p-3.5 grid gap-2.5">
-              <div className="flex justify-between items-center">
-                <p className="text-xs font-semibold text-purple-700">▶ Preview Musik</p>
+          {/* Player Preview */}
+          {editing.musik_url ? (
+            <div className="border border-purple-200 bg-purple-50/50 rounded-2xl p-4 space-y-3">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                <span className="text-xs font-bold text-purple-800 uppercase tracking-wider flex items-center gap-1.5">
+                  <IconMusic className="w-3.5 h-3.5" />
+                  <span>Preview Pemutar Musik</span>
+                </span>
                 {(editing.musik_start || editing.musik_end) && (
                   <button
                     type="button"
                     onClick={testTrimmedPlay}
-                    className="text-xs bg-purple-600 hover:bg-purple-700 text-white font-semibold px-3 py-1 rounded-lg shadow-sm"
+                    className="text-xs bg-purple-600 hover:bg-purple-700 text-white font-bold px-3.5 py-1.5 rounded-xl shadow-2xs transition inline-flex items-center gap-1.5"
                   >
-                    ▶ Uji Bagian Potongan
+                    <IconPlay className="w-3 h-3" />
+                    <span>Uji Bagian Potongan</span>
                   </button>
                 )}
               </div>
-              <audio ref={previewAudioRef} controls src={editing.musik_url} className="w-full h-10" />
-              <div className="flex justify-between items-center text-xs text-slate-500">
-                <p>Judul: <strong>{editing.musik_judul || "(belum diisi)"}</strong></p>
+
+              <audio ref={previewAudioRef} controls src={editing.musik_url} className="w-full h-10 rounded-xl" />
+
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-xs text-slate-500 gap-1 pt-1">
+                <p>Judul: <strong className="text-slate-800">{editing.musik_judul || "(belum diisi)"}</strong></p>
                 {(editing.musik_start || editing.musik_end) && (
-                  <p className="font-mono text-purple-700 font-medium">
-                    Bagian aktif: {editing.musik_start || "00:00"} → {editing.musik_end || "Akhir lagu"}
+                  <p className="font-mono text-purple-700 font-bold bg-white px-2 py-0.5 rounded-md border border-purple-200">
+                    Potongan: {editing.musik_start || "00:00"} → {editing.musik_end || "Akhir"}
                   </p>
                 )}
               </div>
-              <button
-                type="button"
-                onClick={() => setEditing({ ...editing, musik_url: "", musik_judul: "", musik_start: "", musik_end: "" })}
-                className="text-xs text-rose-600 hover:text-rose-800 text-left w-fit"
-              >
-                🗑 Hapus musik
-              </button>
-            </div>
-          )}
 
-          {!editing.musik_url && (
-            <div className="border border-dashed border-slate-300 rounded-xl p-4 text-center text-xs text-slate-400">
-              Belum ada musik. Upload file atau tempel URL di atas.
+              <div className="pt-1">
+                <button
+                  type="button"
+                  onClick={() => setEditing({ ...editing, musik_url: "", musik_judul: "", musik_start: "", musik_end: "" })}
+                  className="text-xs text-rose-600 hover:text-rose-800 font-semibold inline-flex items-center gap-1"
+                >
+                  <IconTrash className="w-3.5 h-3.5" />
+                  <span>Hapus musik ini</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="border border-dashed border-slate-300 rounded-2xl p-6 text-center text-xs text-slate-400">
+              Belum ada file musik yang aktif. Silakan upload file audio MP3/M4A di atas.
             </div>
           )}
         </section>
 
-        {/* Floating / Bottom Save Bar */}
-        <div className="sticky bottom-4 bg-white p-4 rounded-xl shadow-lg border border-slate-200 flex justify-between items-center z-20">
-          <div>
-            <p className="text-sm font-medium text-slate-700">Periksa kembali data sebelum menyimpan.</p>
-            <p className="text-xs text-slate-400">Data akan langsung terupdate di halaman publik.</p>
+        {/* ======================================================== */}
+        {/* STICKY BOTTOM SAVE BAR */}
+        {/* ======================================================== */}
+        <div className="fixed bottom-4 left-4 right-4 max-w-5xl mx-auto bg-white/95 backdrop-blur-md p-4 sm:p-5 rounded-3xl shadow-xl border border-slate-200/90 flex flex-col sm:flex-row justify-between items-center gap-3 z-30">
+          <div className="text-center sm:text-left">
+            <p className="text-sm font-bold text-slate-900 tracking-tight">Periksa kembali data sebelum menyimpan</p>
+            <p className="text-xs text-slate-500">Perubahan data langsung aktif pada seluruh halaman undangan publik.</p>
           </div>
           <button
+            type="button"
             onClick={handleSave}
             disabled={loading}
-            className="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-emerald-700 disabled:opacity-50 shadow-md transition-all text-sm"
+            className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3.5 rounded-2xl font-bold text-sm transition shadow-xs hover:shadow disabled:opacity-50 inline-flex items-center justify-center gap-2"
           >
-            {loading ? "Menyimpan Data..." : "Simpan Semua Perubahan"}
+            {loading ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                <span>Menyimpan Data...</span>
+              </>
+            ) : (
+              <>
+                <IconSave className="w-4 h-4" />
+                <span>Simpan Semua Perubahan</span>
+              </>
+            )}
           </button>
         </div>
+
       </div>
     </main>
   );
