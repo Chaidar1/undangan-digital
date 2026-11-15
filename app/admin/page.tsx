@@ -188,7 +188,7 @@ function IconPlus({ className = "w-4 h-4" }: { className?: string }) {
 export default function AdminPage() {
   const router = useRouter();
   const slug = process.env.NEXT_PUBLIC_FIXED_SLUG || "khitanan-zayyan-arkana-alfarizqi";
-  const token = process.env.NEXT_PUBLIC_FIXED_TOKEN || "tokencontoh12345";
+  const token = process.env.NEXT_PUBLIC_FIXED_TOKEN || "bumarpuah";
 
   const [editing, setEditing] = useState<Undangan | null>(null);
   const [loading, setLoading] = useState(false);
@@ -228,8 +228,12 @@ export default function AdminPage() {
       try {
         const res = await fetch(`/api/admin/u/${slug}?token=${token}`);
         if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          const errMsg = errData.detail || errData.error || "";
           setPesan({
-            text: "Gagal memuat data dari database. Pastikan token valid di .env.local",
+            text: errMsg
+              ? `Gagal memuat database: ${errMsg}`
+              : "Gagal memuat data dari database. Pastikan database cloud aktif dan token valid.",
             tipe: "error",
           });
           return;

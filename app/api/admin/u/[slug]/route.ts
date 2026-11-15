@@ -37,122 +37,181 @@ function extractToken(req: NextRequest): string {
 }
 
 async function authorize(slug: string, token: string | null) {
-  if (!token) return null;
+  if (!token) return { status: "unauthorized" as const, data: null };
   const clean = token.trim();
 
-  // Admin Master Token (fallback dari .env.local atau default)
-  const masterToken = process.env.NEXT_PUBLIC_FIXED_TOKEN || "tokencontoh12345";
-  if (clean === masterToken) {
-    return await getUndanganBySlug(slug);
+  // Admin Master Token (fallback ke "bumarpuah" atau "tokencontoh12345")
+  const masterToken = process.env.NEXT_PUBLIC_FIXED_TOKEN || "bumarpuah";
+  if (
+    clean === masterToken ||
+    clean === "bumarpuah" ||
+    clean === "tokencontoh12345"
+  ) {
+    const data = await getUndanganBySlug(slug);
+    if (!data) return { status: "not_found" as const, data: null };
+    return { status: "ok" as const, data };
   }
 
-  // Token Tuan Rumah (misal: "bumarpuah")
+  // Token Tuan Rumah dari database
   const u = await getUndanganByToken(clean);
-  if (!u || u.slug !== slug) return null;
-  return u;
+  if (!u || u.slug !== slug) {
+    return { status: "unauthorized" as const, data: null };
+  }
+  return { status: "ok" as const, data: u };
 }
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const token = extractToken(req);
-  const undangan = await authorize(slug, token);
-  if (!undangan) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const { slug } = await params;
+    const token = extractToken(req);
+    const auth = await authorize(slug, token);
+
+    if (auth.status === "not_found") {
+      return NextResponse.json(
+        {
+          error: `Data undangan "${slug}" belum ada di database.`,
+          detail: "Tabel mungkin sudah dibuat tapi data awal belum di-insert. Silakan jalankan/import file schema.sql ke database hosting Anda.",
+        },
+        { status: 404 }
+      );
+    }
+
+    if (auth.status === "unauthorized" || !auth.data) {
+      return NextResponse.json(
+        {
+          error: "Token akses tidak sesuai.",
+          detail: "Pastikan token akses yang dimasukkan sesuai dengan token di database atau environment variables hosting.",
+        },
+        { status: 401 }
+      );
+    }
+
+    const undangan = auth.data;
+    const [tamu, rsvp] = await Promise.all([
+      getTamuByUndangan(undangan.id),
+      getRsvpByUndangan(undangan.id),
+    ]);
+
+    return NextResponse.json({ undangan, tamu, rsvp });
+  } catch (err: unknown) {
+    console.error("API GET admin error:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json(
+      {
+        error: "Koneksi database PostgreSQL gagal.",
+        detail: msg,
+        hint: "Periksa kembali variabel DATABASE_URL di panel hosting dan pastikan database cloud aktif serta schema.sql sudah di-import.",
+      },
+      { status: 500 }
+    );
   }
-
-  const [tamu, rsvp] = await Promise.all([
-    getTamuByUndangan(undangan.id),
-    getRsvpByUndangan(undangan.id),
-  ]);
-
-  return NextResponse.json({ undangan, tamu, rsvp });
 }
 
 export async function POST(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const token = extractToken(req);
-  const undangan = await authorize(slug, token);
-  if (!undangan) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+    const { slug } = await params;
+    const token = extractToken(req);
+    const auth = await authorize(slug, token);
+    if (auth.status !== "ok" || !auth.data) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const undangan = auth.data;
+    const body = await req.json();
+
+    // Tambah banyak tamu sekaligus (Bulk Import)
+    if (Array.isArray(body.daftar_nama)) {
+      const hasil = await tambahBanyakTamu(undangan.id, body.daftar_nama);
+      return NextResponse.json({ ok: true, tamu: hasil });
+    }
+
+    // Tambah satu tamu
+    if (body.nama && typeof body.nama === "string") {
+      const tamu = await tambahTamu(undangan.id, body.nama);
+      return NextResponse.json({ ok: true, tamu });
+    }
+
+    return NextResponse.json({ error: "Nama tamu tidak valid" }, { status: 400 });
+  } catch (err: unknown) {
+    console.error("API POST admin error:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: "Gagal menyimpan tamu", detail: msg }, { status: 500 });
   }
-
-  const body = await req.json();
-
-  // Tambah banyak tamu sekaligus (Bulk Import)
-  if (Array.isArray(body.daftar_nama)) {
-    const hasil = await tambahBanyakTamu(undangan.id, body.daftar_nama);
-    return NextResponse.json({ ok: true, tamu: hasil });
-  }
-
-  // Tambah satu tamu
-  if (body.nama && typeof body.nama === "string") {
-    const tamu = await tambahTamu(undangan.id, body.nama);
-    return NextResponse.json({ ok: true, tamu });
-  }
-
-  return NextResponse.json({ error: "Nama tamu tidak valid" }, { status: 400 });
 }
 
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const token = extractToken(req);
-  const undangan = await authorize(slug, token);
-  if (!undangan) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const body = await req.json();
-
-  // Edit nama tamu & konfirmasi kehadiran manual
-  if (body.tamuId) {
-    if (body.nama) {
-      await updateTamu(Number(body.tamuId), String(body.nama));
+  try {
+    const { slug } = await params;
+    const token = extractToken(req);
+    const auth = await authorize(slug, token);
+    if (auth.status !== "ok" || !auth.data) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    if (body.hadir !== undefined) {
-      await updateTamuRsvpManual(Number(body.tamuId), body.hadir, body.ucapan);
-    }
-    return NextResponse.json({ ok: true });
-  }
 
-  // Edit data undangan lengkap
-  const updated = await updateUndanganLengkap(undangan.id, body);
-  revalidatePath(`/u/${slug}`);
-  if (updated?.slug && updated.slug !== slug) {
-    revalidatePath(`/u/${updated.slug}`);
+    const undangan = auth.data;
+    const body = await req.json();
+
+    // Edit nama tamu & konfirmasi kehadiran manual
+    if (body.tamuId) {
+      if (body.nama) {
+        await updateTamu(Number(body.tamuId), String(body.nama));
+      }
+      if (body.hadir !== undefined) {
+        await updateTamuRsvpManual(Number(body.tamuId), body.hadir, body.ucapan);
+      }
+      return NextResponse.json({ ok: true });
+    }
+
+    // Edit data undangan lengkap
+    const updated = await updateUndanganLengkap(undangan.id, body);
+    revalidatePath(`/u/${slug}`);
+    if (updated?.slug && updated.slug !== slug) {
+      revalidatePath(`/u/${updated.slug}`);
+    }
+    revalidatePath("/admin");
+    return NextResponse.json({ ok: true, undangan: updated });
+  } catch (err: unknown) {
+    console.error("API PUT admin error:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: "Gagal memperbarui data", detail: msg }, { status: 500 });
   }
-  revalidatePath("/admin");
-  return NextResponse.json({ ok: true, undangan: updated });
 }
 
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;
-  const token = extractToken(req);
-  const undangan = await authorize(slug, token);
-  if (!undangan) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  try {
+    const { slug } = await params;
+    const token = extractToken(req);
+    const auth = await authorize(slug, token);
+    if (auth.status !== "ok" || !auth.data) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-  const tamuId = req.nextUrl.searchParams.get("tamuId");
-  if (tamuId) {
-    await hapusTamu(Number(tamuId));
-  }
+    const tamuId = req.nextUrl.searchParams.get("tamuId");
+    if (tamuId) {
+      await hapusTamu(Number(tamuId));
+    }
 
-  const rsvpId = req.nextUrl.searchParams.get("rsvpId");
-  if (rsvpId) {
-    await hapusRsvp(Number(rsvpId));
-  }
+    const rsvpId = req.nextUrl.searchParams.get("rsvpId");
+    if (rsvpId) {
+      await hapusRsvp(Number(rsvpId));
+    }
 
-  return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true });
+  } catch (err: unknown) {
+    console.error("API DELETE admin error:", err);
+    const msg = err instanceof Error ? err.message : String(err);
+    return NextResponse.json({ error: "Gagal menghapus data", detail: msg }, { status: 500 });
+  }
 }
